@@ -19,7 +19,7 @@ export interface IGetMoviesResult {
   total_results: number;
 }
 export function getMovies() {
-  return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}`).then(
-    (response) => response.json()
-  );
+  return fetch(
+    `${BASE_PATH}/movie/now_playing?api_key=${API_KEY}&language=ko`
+  ).then((response) => response.json());
 }
