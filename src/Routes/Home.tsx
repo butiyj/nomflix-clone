@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { getMovies, IGetMoviesResult } from "../api";
 import { makeImagePath } from "../utils";
 import { AnimatePresence, motion, useViewportScroll } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useWindowDimensions from "./Components/useWindowDimension";
 import { useMatch, useNavigate } from "react-router-dom";
 
@@ -152,13 +152,10 @@ const BigOverview = styled.p`
   color: ${(props) => props.theme.white.lighter};
 `;
 
-interface IForm {
-  keyword: string;
-}
 const offset = 6;
 function Home() {
   const histroy = useNavigate();
-  const bigMovieMatch = useMatch("/movies/:movieId");
+  const bigMovieMatch = useMatch(`${process.env.PUBLIC_URL}/movies/:movieId/*`);
   const { scrollY } = useViewportScroll();
   const width = useWindowDimensions();
   const { data, isLoading } = useQuery<IGetMoviesResult>(
@@ -167,7 +164,6 @@ function Home() {
   );
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
-  useEffect(() => {}, []);
   const incraseIndex = () => {
     if (data) {
       if (leaving) return;
@@ -179,10 +175,10 @@ function Home() {
   };
   const toggleLeaving = () => setLeaving((prev) => !prev);
   const onBoxCliecked = (movieId: number) => {
-    histroy(`/movies/${movieId}`);
+    histroy(`${process.env.PUBLIC_URL}/movies/${movieId}`);
   };
   const onOverlayClick = () => {
-    histroy(`/`);
+    histroy(`${process.env.PUBLIC_URL}/`);
   };
   const clickedMovie =
     bigMovieMatch?.params.movieId &&
