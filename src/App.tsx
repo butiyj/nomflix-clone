@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Router } from "react-router-dom";
 import Header from "./Routes/Components/Header";
 import Home from "./Routes/Home";
 import Search from "./Routes/Search";
 import TV from "./Routes/TV";
 
 function App() {
+  console.log("App");
   return (
     <BrowserRouter>
       <Header />
@@ -15,11 +15,12 @@ function App() {
           path={`${process.env.PUBLIC_URL}/search`}
           element={<Search />}
         ></Route>
-        <Route path={`${process.env.PUBLIC_URL}/`} element={<Home />}></Route>
+
         <Route
           path={`${process.env.PUBLIC_URL}/movies/:id/*`}
           element={<Home />}
         ></Route>
+        <Route path={`${process.env.PUBLIC_URL}/`} element={<Home />}></Route>
       </Routes>
     </BrowserRouter>
   );

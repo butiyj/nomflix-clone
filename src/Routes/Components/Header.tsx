@@ -134,7 +134,7 @@ function Header() {
   const history = useNavigate();
   const { register, handleSubmit } = useForm<IForm>();
   const onValid = (data: IForm) => {
-    history(`/search?keyword=${data.keyword}`);
+    history(`${process.env.PUBLIC_URL}/search?keyword=${data.keyword}`);
   };
   return (
     <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
@@ -152,12 +152,12 @@ function Header() {
         </Logo>
         <Items>
           <Item>
-            <Link to="/">
+            <Link to={`${process.env.PUBLIC_URL}/`}>
               Home {homeMatch && <Circle layoutId="circle" />}{" "}
             </Link>
           </Item>
           <Item>
-            <Link to="/tv">
+            <Link to={`${process.env.PUBLIC_URL}/tv`}>
               Tv Shows {tvMatch && <Circle layoutId="circle" />}
             </Link>
           </Item>
