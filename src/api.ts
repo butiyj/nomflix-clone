@@ -23,3 +23,22 @@ export function getMovies() {
     `${BASE_PATH}/movie/now_playing?api_key=${API_KEY}&language=ko`
   ).then((response) => response.json());
 }
+
+interface ITVTop {
+  id: number;
+  backdrop_path: string;
+  poster_path: string;
+  name: string;
+  overview: string;
+}
+export interface IGetTvTopsResult {
+  page: number;
+  results: ITVTop[];
+  total_pages: number;
+  total_results: number;
+}
+export function getTvTops() {
+  return fetch(`${BASE_PATH}/tv/top_rated?api_key=${API_KEY}&language=ko`).then(
+    (response) => response.json()
+  );
+}

@@ -7,17 +7,7 @@ import { useState } from "react";
 import useWindowDimensions from "./Components/useWindowDimension";
 import { useMatch, useNavigate } from "react-router-dom";
 import Banner from "./Components/Banner";
-
-const Wrapper = styled.div`
-  background: black;
-  padding-bottom: 200px;
-`;
-const Loader = styled.div`
-  height: 20vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+import { Wrapper, Loader } from "./Components/useStyled";
 
 const Slider = styled.div`
   position: relative;
