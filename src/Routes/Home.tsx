@@ -1,132 +1,31 @@
 import { useQuery } from "react-query";
-import styled from "styled-components";
 import { getMovies, IGetMoviesResult } from "../api";
 import { makeImagePath } from "../utils";
-import { AnimatePresence, motion, useViewportScroll } from "framer-motion";
+import { AnimatePresence, useViewportScroll } from "framer-motion";
 import { useState } from "react";
 import useWindowDimensions from "./Components/useWindowDimension";
 import { useMatch, useNavigate } from "react-router-dom";
 import Banner from "./Components/Banner";
-import { Wrapper, Loader } from "./Components/useStyled";
+import {
+  Wrapper,
+  Loader,
+  Row,
+  Slider,
+  infoVariants,
+  Info,
+  BoxVariants,
+  Box,
+  offset,
+  BigTitle,
+  BigOverview,
+  BigMovie,
+  Overlay,
+  ButtonGroup,
+  NextPage,
+  NextPageVariants,
+  BigCover,
+} from "./Components/useStyled";
 
-const Slider = styled.div`
-  position: relative;
-  top: -100px;
-`;
-const Row = styled(motion.div)`
-  display: grid;
-  gap: 5px;
-  grid-template-columns: repeat(6, 1fr);
-  position: absolute;
-  width: 100%;
-`;
-const Box = styled(motion.div)<{ bgphoto: string }>`
-  background-color: white;
-  background-image: url(${(props) => props.bgphoto});
-  background-size: cover;
-  background-position: center center;
-  height: 200px;
-  font-size: 66px;
-  cursor: pointer;
-  &:first-child {
-    transform-origin: center left;
-  }
-  &:last-child {
-    transform-origin: center right;
-  }
-`;
-const rowVariants = {
-  hidden: {
-    x: window.outerWidth + 5,
-  },
-  visible: {
-    x: 0,
-  },
-  exit: {
-    x: -window.outerWidth - 5,
-  },
-};
-const Info = styled(motion.div)`
-  padding: 10px;
-  background-color: ${(props) => props.theme.black.lighter};
-  opacity: 0;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  h4 {
-    text-align: center;
-    font-size: 18px;
-  }
-`;
-const BoxVariants = {
-  normal: {
-    scale: 1,
-  },
-  hover: {
-    scale: 1.3,
-    y: -80,
-    transition: {
-      delay: 0.5,
-      duaration: 0.1,
-      type: "tween",
-    },
-  },
-};
-const infoVariants = {
-  hover: {
-    opacity: 1,
-    transition: {
-      delay: 0.5,
-
-      duaration: 0.1,
-      type: "tween",
-    },
-  },
-};
-const Overlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-`;
-
-const BigMovie = styled(motion.div)<{ scrolly: number }>`
-  top: ${(props) => props.scrolly + 200}px;
-  position: absolute;
-  width: 40vw;
-  height: 80vh;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  border-radius: 15px;
-  overflow: hidden;
-  background-color: ${(props) => props.theme.black.lighter};
-`;
-const BigCover = styled.div`
-  width: 100%;
-  background-size: cover;
-  background-position: center center;
-  height: 400px;
-`;
-
-const BigTitle = styled.h3`
-  color: ${(props) => props.theme.white.lighter};
-  padding: 20px;
-  font-size: 46px;
-  position: relative;
-  top: -80px;
-`;
-
-const BigOverview = styled.p`
-  padding: 20px;
-  position: relative;
-  top: -80px;
-  color: ${(props) => props.theme.white.lighter};
-`;
-
-const offset = 6;
 function Home() {
   const histroy = useNavigate();
   const bigMovieMatch = useMatch(`${process.env.PUBLIC_URL}/movies/:movieId/*`);
@@ -159,6 +58,15 @@ function Home() {
     data?.results.find(
       (movie) => movie.id + "" === bigMovieMatch.params.movieId
     );
+  const [hover, setHover] = useState(false);
+
+  const handleMouseIn = () => {
+    setHover(true);
+  };
+
+  const handleMouseOut = () => {
+    setHover(false);
+  };
   return (
     <Wrapper>
       {isLoading ? (
@@ -203,7 +111,20 @@ function Home() {
                   ))}
               </Row>
             </AnimatePresence>
+            <ButtonGroup>
+              <NextPage
+                whileHover="hover"
+                initial="normal"
+                variants={NextPageVariants}
+                onClick={incraseIndex}
+                onMouseOver={handleMouseIn}
+                onMouseOut={handleMouseOut}
+              >
+                <h3>{hover ? "〉" : ""}</h3>
+              </NextPage>
+            </ButtonGroup>
           </Slider>
+
           <AnimatePresence>
             {bigMovieMatch ? (
               <>
