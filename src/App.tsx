@@ -10,6 +10,10 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
+        <Route
+          path={`${process.env.PUBLIC_URL}/tv/:id/*`}
+          element={<TV />}
+        ></Route>
         <Route path={`${process.env.PUBLIC_URL}/tv`} element={<TV />}></Route>
         <Route
           path={`${process.env.PUBLIC_URL}/search`}
